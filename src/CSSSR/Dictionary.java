@@ -1,5 +1,4 @@
 /**
- *
  * @author Vadim Naumov
  */
 
@@ -7,7 +6,7 @@ package CSSSR;
 
 import java.util.*;
 
-public class Main {
+public class Dictionary {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
@@ -19,15 +18,25 @@ public class Main {
 
     public static Map<Character, Set<String>> transform(String text) {
 
+        String regex = "[^А-Яа-яёЁ\\s]+";
         List<String> stringList;
         Map<Character, Set<String>> dictionary = new TreeMap<>();
 
-        //преобразуем текст в отдельные слова (только кириллица)
-        stringList = Arrays.asList(text.toLowerCase().split("[^А-Яа-я]+"));
+        if (text == null) {
+            return dictionary;
+        }
+
+        //оставляем кириллицу
+        text = text.replaceAll(regex, "").toLowerCase().trim();
+        if (text.length() == 0) {
+            return dictionary;
+        }
+
+        //преобразуем текст в отдельные слова
+        stringList = Arrays.asList(text.split("\\s+"));
 
         //группируем слова по первой букве в слове
         for (String element : stringList) {
-
             char letter = element.charAt(0);
 
             if (!dictionary.containsKey(letter)) {
